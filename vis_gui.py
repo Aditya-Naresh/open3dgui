@@ -235,6 +235,27 @@ class AppWindow:
         # space for all its children when open, but only enough for text when
         # closed. This is useful for property pages, so the user can hide sets
         # of properties they rarely use.
+        
+        # Create a TabControl for General Settings and AI Settings
+        tabs = gui.TabControl()
+
+        # General Settings tab
+        general_settings = gui.Vert(0, gui.Margins(0.25 * em, 0.25 * em, 0.25 * em, 0.25 * em))
+        # general_settings.add_child(gui.Label("General Settings Content"))
+        # Add more general settings widgets here
+
+        # AI Settings tab
+        ai_settings = gui.Vert(0, gui.Margins(0.25 * em, 0.25 * em, 0.25 * em, 0.25 * em))
+        # ai_settings.add_child(gui.Label("AI Settings Content"))
+        # Add more AI settings widgets here
+
+        # Add tabs to TabControl
+        tabs.add_tab("General Settings", general_settings)
+        tabs.add_tab("AI Settings", ai_settings)
+
+        # Add the TabControl to the settings panel
+        self._settings_panel.add_child(tabs)
+
         view_ctrls = gui.CollapsableVert("View controls", 0.25 * em,
                                          gui.Margins(em, 0, 0, 0))
 
@@ -396,6 +417,7 @@ class AppWindow:
         self._settings_panel.add_child(material_settings)
         # ----
 
+
         # Normally our user interface can be children of all one layout (usually
         # a vertical layout), which is then the only child of the window. In our
         # case we want the scene to take up all the space and the settings panel
@@ -418,6 +440,7 @@ class AppWindow:
                 app_menu.add_item("Quit", AppWindow.MENU_QUIT)
             file_menu = gui.Menu()
             file_menu.add_item("Open...", AppWindow.MENU_OPEN)
+            file_menu.add_item("Open Samples...", AppWindow.MENU_OPEN)
             file_menu.add_item("Export Current Image...", AppWindow.MENU_EXPORT)
             if not isMacOS:
                 file_menu.add_separator()
@@ -749,7 +772,6 @@ class AppWindow:
             o3d.io.write_image(path, img, quality)
 
         self._scene.scene.scene.render_to_image(on_image)
-
 
 def main():
     # We need to initialize the application, which finds the necessary shaders
